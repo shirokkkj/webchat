@@ -95,7 +95,6 @@
             {% endfor %}
         </div>
         <form class="form" action="home" method="POST">
-            <input type="text" placeholder="Nome">
             <input type="text" placeholder="Mensagem">
             <button class="submit">Enviar</button>
         </form>
@@ -103,16 +102,40 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf-8">
+
         window.onload = function () {
+            function getCookie(name) {
+                // Cria um padrão de busca que localiza o nome do cookie seguido de um '='
+                const nameEQ = name + "=";
+                // Divide a string de cookies com base em ';'
+                const cookies = document.cookie.split(';');
+                
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i];
+                    // Remove espaços em branco no início do cookie
+                    while (cookie.charAt(0) === ' ') {
+                        cookie = cookie.substring(1, cookie.length);
+                    }
+                    // Verifica se o cookie começa com o nome procurado
+                    if (cookie.indexOf(nameEQ) === 0) {
+                        // Retorna o valor do cookie após o '='
+                        console.log(cookie.substring(cookie.length))
+                        return cookie.substring(nameEQ.length, cookie.length);
+                    }
+                }
+                return null; // Retorna null se o cookie não for encontrado
+            }
+            if (!getCookie('autor')){
+                return alert('Faça o seu registro para entrar no site.')
+            }
             var socket = io();
             socket.on('connect', function() {
                 socket.emit('vaprocaralho');
             });
             document.querySelector('form').addEventListener('submit', function(event){
                 event.preventDefault();  // Impede o formulário de enviar por HTTP
-                socket.emit('sendMessages', {autor: event.target[0].value, message: event.target[1].value});
-                event.target[0].value = '';  // Limpa o campo de texto
-                event.target[1].value = '';  // Limpa o campo de mensagem
+                socket.emit('sendMessages', {autor: getCookie('autor'), message: event.target[0].value});
+                event.target[0].value = '';  // Limpa o campo de mensagem
             });
 
             socket.on('getMessage', (msg) => {

@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #90ee90;
+    font-family: 'Arial', sans-serif;
+    color: #212121;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.login-box {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #4caf50;
+}
+
+p {
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+    transition: 20s;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #212121;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #4caf50; /* Altera a cor da borda ao focar */
+    background-color: #f1f8e9; /* Altera a cor de fundo ao focar */
+}
+
+.submit-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.submit-login:hover {
+    background-color: #81c784;
+}
+
+.google-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #000;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.other-options {
+    margin-top: 20px;
+}
+
+.other-options a {
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.other-options p {
+    margin-top: 10px;
+    color: #666;
+}

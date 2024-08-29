@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+    <title>Login Page</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flashes">
+            {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Register</h2>
+            <p>Please register to access the website.</p>
+            <form method="POST" action="register">
+                {{ register_form.hidden_tag() }}
+                <div class="input-group">
+                    <label for="email">{{ register_form.name.label }}</label>
+                    {{ register_form.name(class="input-field", id="name", placeholder="Username") }}
+                </div>
+                <div class="input-group">
+                    <label for="password">{{ register_form.password.label }}</label>
+                    {{ register_form.password(class="input-field", id="password", placeholder="Password") }}
+                </div>
+                <div class="input-group">
+                    <label for="password">{{ register_form.repeat_password.label }}</label>
+                    {{ register_form.repeat_password(class="input-field", id="password", placeholder="Repeat Password") }}
+                </div>
+                {{register_form.submit(class='submit-login')}}
+            </form>
+        </div>
+    </div>
+</body>
+</html>
