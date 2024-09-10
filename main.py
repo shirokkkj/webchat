@@ -17,7 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:shirostrong
 def home():
     if not request.cookies.get('autor'):
         return redirect(url_for('register'))
-    return render_template('home.html', messages=messages)
+    return render_template('index.html', messages=messages)
 
 
 
