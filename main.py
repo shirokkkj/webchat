@@ -5,10 +5,13 @@ import os
 messages = [
 ]
 
+from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
 io = SocketIO(app)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = '23761278361236'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:shirostrongpassword@127.0.0.1:3306/webchat'
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
@@ -41,6 +44,13 @@ def register():
 def receive_message(msg):
     emitted = io.emit('getMessage', msg)
     messages.append(msg)
+
+
+
+@io.on('clearMessages')
+def clear_messages():
+    messages.clear()
+    emit('clearMessages')
     
 
 io.run(app, debug=True)

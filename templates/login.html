@@ -1,11 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
     <title>Login Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #3e3e3e; /* Cor de fundo escura */
+            color: #e0e0e0; /* Cor do texto clara */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .login-box {
+            background-color: #4f4f4f; /* Cor de fundo do box */
+            border-radius: 15px; /* Bordas arredondadas */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra suave */
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            color: #e0e0e0; /* Cor do texto clara */
+        }
+
+        .login-box h2 {
+            margin: 0 0 10px;
+            color: #e0e0e0; /* Cor do título */
+        }
+
+        .login-box p {
+            margin: 0 0 20px;
+            color: #b0b0b0; /* Cor do texto de instrução */
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            width: 100%; /* Garante que o grupo de entrada não exceda a largura do box */
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #e0e0e0; /* Cor das labels */
+        }
+
+        .input-field {
+            width: calc(100% - 24px); /* Ajusta a largura para não exceder o box */
+            padding: 12px;
+            border: 1px solid #666; /* Borda escura */
+            border-radius: 15px;
+            background-color: #333; /* Cor de fundo dos campos */
+            color: #e0e0e0; /* Cor do texto nos campos */
+            font-size: 16px;
+            box-sizing: border-box; /* Garante que padding e borda sejam incluídos na largura total */
+        }
+
+        .submit-login {
+            background-color: #795548; /* Cor suave e acolhedora para o botão */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .submit-login:hover {
+            background-color: #6d4c41; /* Cor ligeiramente mais escura no hover */
+        }
+
+        .flashes {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            background-color: #d9534f; /* Cor de fundo da mensagem de alerta */
+            color: white;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .alert strong {
+            display: block;
+        }
+
+        .alert .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -13,11 +121,12 @@
             {% for message in messages %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>{{ message }}</strong>
+                    <span class="close" data-dismiss="alert" aria-label="Close">&times;</span>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
-{% endwith %}
+    {% endwith %}
     <div class="login-container">
         <div class="login-box">
             <h2>Register</h2>
@@ -25,7 +134,7 @@
             <form method="POST" action="register">
                 {{ register_form.hidden_tag() }}
                 <div class="input-group">
-                    <label for="email">{{ register_form.name.label }}</label>
+                    <label for="name">{{ register_form.name.label }}</label>
                     {{ register_form.name(class="input-field", id="name", placeholder="Username") }}
                 </div>
                 <div class="input-group">
@@ -33,12 +142,13 @@
                     {{ register_form.password(class="input-field", id="password", placeholder="Password") }}
                 </div>
                 <div class="input-group">
-                    <label for="password">{{ register_form.repeat_password.label }}</label>
-                    {{ register_form.repeat_password(class="input-field", id="password", placeholder="Repeat Password") }}
+                    <label for="repeat_password">{{ register_form.repeat_password.label }}</label>
+                    {{ register_form.repeat_password(class="input-field", id="repeat_password", placeholder="Repeat Password") }}
                 </div>
-                {{register_form.submit(class='submit-login')}}
+                {{ register_form.submit(class='submit-login') }}
             </form>
         </div>
     </div>
 </body>
+
 </html>

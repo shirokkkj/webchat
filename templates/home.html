@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
+    <link rel="icon" href="{{url_for('static',  filename='anims/coffe-login.png')}}" type="image/x-icon">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f4f8;
+            font-family: 'Whitney', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,79 +21,166 @@
 
         .chat-container {
             width: 90%;
-            max-width: 600px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            background-color: #2f2f2f;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
             padding: 20px;
             display: flex;
             flex-direction: column;
+            height: 90vh;
             overflow: hidden;
+        }
+
+        .chat-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3d3d3d;
+            margin-bottom: 10px;
+        }
+
+        .chat-nav .title {
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        .create-room {
+            background: #25d366; /* Cor verde do WhatsApp */
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .create-room:hover {
+            background: #1ebd6e;
+            transform: scale(1.05);
+        }
+
+        .create-room:active {
+            background: #1aab5e;
+            transform: scale(1);
         }
 
         .chat {
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            max-height: 300px;
+            max-height: calc(100% - 80px);
             margin-bottom: 20px;
             padding-right: 10px;
         }
 
-        .chat span {
-            background-color: #e1e9f1;
+        .chat::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .chat::-webkit-scrollbar-thumb {
+            background: #4a4a4a;
             border-radius: 10px;
+        }
+
+        .chat::-webkit-scrollbar-thumb:hover {
+            background: #6a6a6a;
+        }
+
+        .chat::-webkit-scrollbar-track {
+            background: #2f2f2f;
+        }
+
+        .chat span {
+            background: #3a3a3a;
+            border-radius: 12px;
             padding: 10px;
             margin: 5px 0;
             word-wrap: break-word;
             max-width: 80%;
             align-self: flex-start;
+            color: #e0e0e0;
+            font-size: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .chat span strong {
-            color: #3b5998;
+            color: #25d366;
             font-size: 1.1em;
+            display: block;
+            margin-bottom: 2px;
         }
 
         .chat span.user-message {
-            background-color: #d4edda;
+            background: #25d366; /* Cor verde do WhatsApp */
             align-self: flex-end;
+            color: #ffffff;
+        }
+
+        .chat span:hover {
+            background-color: #444;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
         }
 
         .form {
             display: flex;
             gap: 10px;
             align-items: center;
+            border-top: 1px solid #3d3d3d;
+            padding-top: 10px;
         }
 
         .form input[type="text"] {
             flex: 1;
             padding: 10px;
-            border: 1px solid #d1d5da;
-            border-radius: 5px;
+            border: none;
+            border-radius: 20px;
             font-size: 16px;
+            background: #3a3a3a;
+            color: #e0e0e0;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form input[type="text"]:focus {
+            background: #4a4a4a;
+            box-shadow: 0 0 0 2px #25d366;
+            outline: none;
         }
 
         .form button.submit {
-            background-color: #4CAF50;
+            background: #25d366;
             color: white;
             padding: 10px 15px;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .form button.submit:hover {
-            background-color: #45a049;
+            background: #1ebd6e;
+            transform: scale(1.05);
+        }
+
+        .form button.submit:active {
+            background: #1aab5e;
+            transform: scale(1);
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
+        <nav class="chat-nav">
+            <div class="title">Sala de Chat</div>
+            <button class="create-room">Criar Sala</button>
+        </nav>
         <div class='chat'>
             {% for message in messages %}
-                <span class="{% if message.autor == 'You' %}user-message{% endif %}"><strong>{{ message.autor }}</strong>   {{ message.message }}</span>
+                <span class="{% if message.autor == 'You' %}user-message{% endif %}"><strong>{{ message.autor }}</strong>{{ message.message }}</span>
             {% endfor %}
         </div>
         <form class="form" action="home" method="POST">
@@ -100,50 +189,78 @@
         </form>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+        integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+        crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf-8">
 
         window.onload = function () {
+            messages_array = {{messages | tojson}}
+            console.log(messages_array)
             function getCookie(name) {
-                // Cria um padrão de busca que localiza o nome do cookie seguido de um '='
                 const nameEQ = name + "=";
-                // Divide a string de cookies com base em ';'
                 const cookies = document.cookie.split(';');
-                
+
                 for (let i = 0; i < cookies.length; i++) {
                     let cookie = cookies[i];
-                    // Remove espaços em branco no início do cookie
                     while (cookie.charAt(0) === ' ') {
                         cookie = cookie.substring(1, cookie.length);
                     }
-                    // Verifica se o cookie começa com o nome procurado
                     if (cookie.indexOf(nameEQ) === 0) {
-                        // Retorna o valor do cookie após o '='
-                        console.log(cookie.substring(cookie.length))
                         return cookie.substring(nameEQ.length, cookie.length);
                     }
                 }
-                return null; // Retorna null se o cookie não for encontrado
+                return null;
             }
-            if (!getCookie('autor')){
+
+            if (!getCookie('autor')) {
                 return alert('Faça o seu registro para entrar no site.')
             }
+
+            let CurrentUser = getCookie('autor');
             var socket = io();
-            socket.on('connect', function() {
+            socket.on('connect', function () {
                 socket.emit('vaprocaralho');
             });
-            document.querySelector('form').addEventListener('submit', function(event){
-                event.preventDefault();  // Impede o formulário de enviar por HTTP
+
+            document.querySelector('form').addEventListener('submit', function (event) {
+                event.preventDefault();
                 socket.emit('sendMessages', {autor: getCookie('autor'), message: event.target[0].value});
-                event.target[0].value = '';  // Limpa o campo de mensagem
+                event.target[0].value = '';
             });
 
             socket.on('getMessage', (msg) => {
                 const span = document.createElement('span');
                 const chat = document.querySelector('.chat');
+
+                if (msg.message[0] === '#') {
+                    msg.message = msg.message.substring(1)
+                    span.style.fontSize = '32px';
+                }
+                if (msg.message[0] === '@') {
+                    msg.message = msg.message.substring(1)
+                    console.log(msg.message)
+                    if (!messages_array['autor'].includes(msg.message)){
+                        return
+                    }
+                    span.style.color = 'red';
+                }
+                if (msg.autor === CurrentUser) {
+                    span.classList.add('user-message');
+                }
+                if (msg.message[0] === '*') {
+                    msg.message = msg.message.substring(1)
+                    span.style.fontWeight = 'bold';
+                }
+                if (msg.message === '/clear') {
+                    socket.on('clearMessages', () => {
+                        chat.innerHTML = '';
+                    })
+                    socket.emit('clearMessages')
+                }
                 span.innerHTML = `<strong>${msg.autor}</strong>   ${msg.message}`;
                 chat.append(span);
-                chat.scrollTop = chat.scrollHeight;  // Rola automaticamente para a nova mensagem
+                chat.scrollTop = chat.scrollHeight;
             });
         }
     </script>
