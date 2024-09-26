@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 io = SocketIO(app)
 app.config['SECRET_KEY'] = '23761278361236'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:shirostrongpassword@127.0.0.1:3306/webchat'
+
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
